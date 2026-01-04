@@ -22,9 +22,15 @@ const userSchema = new mongoose.Schema(
       enum: ["customer", "helper", "admin"],
       default: "customer",
     },
+    // isVerified field determines if a user can access certain features
+    // Helpers need manual verification before they can offer services
+    // This protects the platform from unverified service providers
+    // Customers and admins are auto-verified since they don't provide services
     isVerified: {
       type: Boolean,
       default: function () {
+        // Helpers start as unverified (need approval)
+        // Customers and admins are auto-verified
         return this.role !== "helper"
       },
     },
